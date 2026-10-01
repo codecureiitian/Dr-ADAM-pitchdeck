@@ -1,374 +1,444 @@
 import React from "react";
-import {
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
-  Tooltip,
-  ResponsiveContainer,
-  PieChart,
-  Pie,
-  Cell,
-} from "recharts";
 
-const fundingData = [
-  { name: "Infra & Hosting", value: 60 },
-  { name: "Hiring", value: 40 },
+const DOCADAMS_BASE_URL = (
+  process.env.REACT_APP_DOCADAMS_URL ||
+  "https://doc-adams.vercel.app"
+).replace(/\/+$/, "");
+
+const DOCADAMS_PROGRESS_URL = DOCADAMS_BASE_URL + "/progress";
+
+const pillars = [
+  {
+    title: "Longitudinal patient record",
+    text: "Keep medical problems organized as cases with multiple visits, reports, outcomes and patient-confirmed durable context.",
+  },
+  {
+    title: "Patient AI guidance",
+    text: "Help patients understand a case through structured summaries, provisional possibilities, urgency, red flags and safer next-step guidance.",
+  },
+  {
+    title: "DoctorMAP",
+    text: "Build a healthcare-specific geospatial layer that combines a permanent health graph with explicit live discovery while preserving provenance.",
+  },
+  {
+    title: "Doctor workflow",
+    text: "Give authorized clinicians relevant history and an editable AI copilot while keeping final assessment, treatment and prescription under clinician authority.",
+  },
 ];
 
-const marketData = [
-  { name: "India HealthTech (₹15B)", value: 15 },
-  { name: "Unserved Population (1B)", value: 1000 },
-  { name: "Rural Clinics Without Access (%)", value: 65 },
+const goals = [
+  "Connect patient history, documents, cases and follow-up visits into one longitudinal workflow.",
+  "Build clinically safer AI assistance that supports patients and clinicians without replacing professional judgment.",
+  "Create a global healthcare provider and facility graph using open, official, reusable and first-party data.",
+  "Connect provider discovery to appointments, consultations and the patient record instead of treating search as a separate product.",
+  "Keep infrastructure affordable, provider-agnostic, mobile-first and practical for fragmented healthcare systems.",
+  "Expand country by country with local registries, languages, workflows and verification rules.",
+  "Complete systematic clinical validation, security hardening, reliability testing and regulatory review before production-scale clinical use.",
 ];
 
-const COLORS = ["#00BFFF", "#0088FE", "#00C49F"];
+const currentCapabilities = [
+  "Patient and doctor authentication",
+  "Patient cases / episodes and follow-up visits",
+  "Medical document handling and longitudinal history",
+  "Patient AI guidance and persistent clinical chat",
+  "Patient-confirmed memory architecture",
+  "Doctor AI copilot and doctor-reviewed visit saving",
+  "Medication-safety support foundations",
+  "Provider discovery and appointment workflow",
+  "DocADAMS MAP / DoctorMAP integration",
+  "MapLibre + PostGIS healthcare mapping architecture",
+  "Deep Search with source-aware runtime discovery",
+  "Open / official healthcare-data ingestion foundations",
+];
+
+const principles = [
+  {
+    title: "AI assists; clinicians decide",
+    text: "Patient-facing AI is guidance. Doctor-facing AI is decision support. The clinician remains responsible for clinical decisions.",
+  },
+  {
+    title: "Open and affordable where possible",
+    text: "Prefer open standards, reusable data, low-cost infrastructure and provider portability instead of unnecessary dependency on one premium vendor.",
+  },
+  {
+    title: "Designed for fragmented systems",
+    text: "DocADAMS is being shaped for markets where records, provider directories, booking and healthcare information are often disconnected.",
+  },
+  {
+    title: "Provenance matters",
+    text: "An external listing is not automatically a verified provider. Data source, verification and first-party status remain distinguishable.",
+  },
+];
+
+function SectionTitle({ kicker, title, text }) {
+  return (
+    <div className="max-w-3xl mb-10">
+      <p className="text-xs font-bold tracking-[0.22em] text-emerald-700 uppercase">
+        {kicker}
+      </p>
+      <h2 className="mt-3 text-3xl sm:text-4xl font-bold tracking-tight text-slate-900">
+        {title}
+      </h2>
+      {text ? (
+        <p className="mt-4 text-slate-600 leading-7 text-base sm:text-lg">
+          {text}
+        </p>
+      ) : null}
+    </div>
+  );
+}
+
+function Pill({ children }) {
+  return (
+    <span className="inline-flex items-center rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1.5 text-xs font-semibold text-emerald-800">
+      {children}
+    </span>
+  );
+}
 
 export default function PitchDeck() {
   return (
-    <div className="bg-gray-50 text-gray-800 min-h-screen font-sans">
-      <header className="relative bg-gradient-to-r from-blue-900 via-blue-700 to-blue-500 text-white py-16 text-center px-4 sm:px-6 lg:px-8 shadow-lg">
-        <div className="absolute inset-0 bg-opacity-20 bg-black"></div>
-        <div className="relative z-10">
-          <h1 className="text-4xl sm:text-5xl font-bold tracking-tight">
-            Dr. ADAM by InnoSolve Solutions
-          </h1>
-          <p className="mt-4 text-lg sm:text-xl italic text-blue-100">
-            The Future of Clinical AI
+    <main className="min-h-screen bg-slate-50 text-slate-800">
+      <header className="relative overflow-hidden bg-slate-950 text-white">
+        <div className="absolute -top-24 -left-20 h-72 w-72 rounded-full bg-emerald-500/20 blur-3xl" />
+        <div className="absolute -bottom-24 -right-16 h-80 w-80 rounded-full bg-rose-500/15 blur-3xl" />
+
+        <div className="relative mx-auto max-w-6xl px-5 py-20 sm:px-8 sm:py-28">
+          <div className="flex flex-wrap gap-2">
+            <Pill>Active development</Pill>
+            <Pill>C15 · DoctorMAP integration hardening</Pill>
+          </div>
+
+          <p className="mt-8 text-sm font-semibold tracking-[0.22em] text-emerald-300 uppercase">
+            DocADAMS
           </p>
-          <div className="mt-6">
+
+          <h1 className="mt-4 max-w-5xl text-4xl font-bold tracking-tight sm:text-6xl">
+            A connected healthcare layer from patient history to care discovery,
+            clinician workflow and longitudinal follow-up.
+          </h1>
+
+          <p className="mt-7 max-w-3xl text-base leading-8 text-slate-300 sm:text-xl">
+            DocADAMS is evolving from an early clinical-AI concept into a broader
+            healthcare workflow platform: patient cases, documents, AI-assisted
+            understanding, DoctorMAP, appointments, clinician support and a
+            continuously updated longitudinal record.
+          </p>
+
+          <div className="mt-9 flex flex-wrap gap-3">
+            <a
+              href={DOCADAMS_BASE_URL}
+              target="_blank"
+              rel="noreferrer"
+              className="rounded-xl bg-white px-5 py-3 text-sm font-bold text-slate-950 shadow-lg transition hover:-translate-y-0.5"
+            >
+              Open current DocADAMS
+            </a>
+
+            <a
+              href={DOCADAMS_PROGRESS_URL}
+              target="_blank"
+              rel="noreferrer"
+              className="rounded-xl border border-emerald-300/50 bg-emerald-400/10 px-5 py-3 text-sm font-bold text-emerald-100 transition hover:bg-emerald-400/20"
+            >
+              View live development progress
+            </a>
+
             <a
               href="#contact"
-              className="inline-block bg-white text-blue-900 font-semibold px-6 py-3 rounded-full shadow hover:bg-blue-100 transition"
+              className="rounded-xl border border-white/20 px-5 py-3 text-sm font-semibold text-slate-200 transition hover:bg-white/10"
             >
-              Request Early Access
+              Contact / collaborate
             </a>
           </div>
+
+          <p className="mt-7 max-w-3xl text-xs leading-6 text-slate-400">
+            Development build. Not yet production-ready or formally clinically
+            validated.
+          </p>
         </div>
       </header>
 
-      <section className="bg-white py-10 px-4 sm:px-6 lg:px-8">
-        <h2 className="text-2xl sm:text-3xl font-semibold text-blue-900 mb-4">
-          🩺 Our Product
-        </h2>
-        <p className="text-base sm:text-lg">
-          Dr. ADAM is an AI-powered clinical assistant designed for fresh MBBS
-          doctors, interns, and patients in Tier-2/3 cities. It provides
-          real-time diagnosis, red flag alerts, drug interactions, and NEET PG
-          support with clinical reasoning. Built for India, self-hosted for
-          privacy, and zero per-query cost.
-        </p>
-      </section>
+      <section className="mx-auto max-w-6xl px-5 py-16 sm:px-8">
+        <SectionTitle
+          kicker="About DocADAMS"
+          title="Not just an AI chatbot. Not just a booking app."
+          text="DocADAMS is being built as a patient-centered healthcare workflow layer that connects information and actions that are usually fragmented across reports, visits, doctors, directories and separate software systems."
+        />
 
-      <section className="bg-gradient-to-br from-red-50 to-red-100 py-14 px-6 sm:px-10 lg:px-14 rounded-xl shadow-md max-w-6xl mx-auto">
-        <h2 className="text-3xl font-bold text-red-800 mb-6">🚨 Problem</h2>
-        <div className="grid sm:grid-cols-2 gap-8">
-          <ul className="list-disc pl-5 space-y-2 text-base sm:text-lg">
-            <li>
-              Fresh MBBS doctors and interns face decision-making challenges in
-              real-time.
-            </li>
-            <li>
-              Lack of accessible, structured, and up-to-date treatment
-              protocols.
-            </li>
-            <li>Overload of non-contextual information on the internet.</li>
-            <li>
-              Patients seek quick, affordable clinical guidance before visiting
-              doctors.
-            </li>
-          </ul>
+        <div className="grid gap-5 md:grid-cols-2">
+          {pillars.map((item) => (
+            <article
+              key={item.title}
+              className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm"
+            >
+              <h3 className="text-lg font-bold text-slate-900">{item.title}</h3>
+              <p className="mt-3 leading-7 text-slate-600">{item.text}</p>
+            </article>
+          ))}
         </div>
       </section>
 
-      <section className="bg-gradient-to-br from-blue-50 to-blue-100 py-14 px-6 sm:px-10 lg:px-14 rounded-xl shadow-md max-w-6xl mx-auto">
-        <h2 className="text-3xl font-bold text-blue-800 mb-6 flex items-center gap-2">
-          💡 Solution{" "}
-        </h2>
-        <div className="grid sm:grid-cols-2 gap-8">
-          <ul className="list-disc pl-5 space-y-2 text-base sm:text-lg">
-            <li>Symptom analysis & differential diagnosis</li>
-            <li>Drug interaction checks</li>
-            <li>Red flag identification</li>
-            <li>Treatment & investigation recommendations</li>
-            <li>AI-powered learning support for NEET PG</li>
-            <li>
-              Language-aware and region-specific support for India and beyond
-            </li>
-          </ul>
+      <section className="border-y border-slate-200 bg-white">
+        <div className="mx-auto grid max-w-6xl gap-6 px-5 py-16 sm:px-8 lg:grid-cols-2">
+          <article className="rounded-3xl bg-emerald-950 p-7 text-white sm:p-9">
+            <p className="text-xs font-bold tracking-[0.2em] text-emerald-300 uppercase">
+              Vision
+            </p>
+            <h2 className="mt-4 text-3xl font-bold tracking-tight">
+              Make connected, understandable and affordable healthcare
+              infrastructure available beyond well-integrated health systems.
+            </h2>
+            <p className="mt-5 leading-7 text-emerald-50/80">
+              The long-term vision is a portable healthcare layer where a
+              patient can carry structured context across episodes of care,
+              discover appropriate providers and facilities, and interact with
+              clinicians without repeatedly rebuilding the same medical story.
+            </p>
+          </article>
+
+          <article className="rounded-3xl bg-slate-900 p-7 text-white sm:p-9">
+            <p className="text-xs font-bold tracking-[0.2em] text-sky-300 uppercase">
+              Mission
+            </p>
+            <h2 className="mt-4 text-3xl font-bold tracking-tight">
+              Connect patient context, safe AI assistance, healthcare discovery
+              and clinician workflows while preserving human clinical authority.
+            </h2>
+            <p className="mt-5 leading-7 text-slate-300">
+              We are prioritizing low-cost, mobile-first and provider-agnostic
+              infrastructure that can adapt to fragmented directories, limited
+              bandwidth, different national registries and different healthcare
+              delivery models.
+            </p>
+          </article>
         </div>
       </section>
 
-      <section className="bg-gradient-to-br from-indigo-50 to-indigo-100 py-14 px-6 sm:px-10 lg:px-14 rounded-xl shadow-md max-w-6xl mx-auto">
-        <h2 className="text-3xl font-bold text-indigo-800 mb-6 flex items-center gap-2">
-          🎯 Unique Value Proposition{" "}
-        </h2>
-        <p className="text-base sm:text-lg mb-4 font-semibold">
-          “Your AI Clinical Ally for Smarter Decisions & Safer Care.”
-        </p>
-        <ul className="list-disc pl-5 space-y-2 text-base sm:text-lg">
-          <li>
-            Combines clinical AI, language detection, and doctor-level reasoning
-          </li>
-          <li>
-            Offline & real-time mode with zero per-query cost (via self-hosted
-            AI)
-          </li>
-          <li>
-            AI-backed NEET PG preparation with clinical case-based learning
-          </li>
-        </ul>
-      </section>
+      <section className="mx-auto max-w-6xl px-5 py-16 sm:px-8">
+        <SectionTitle
+          kicker="Goals"
+          title="What we are trying to build"
+          text="The product direction is broader than a single AI model. The goal is the system around the model: context, safety, discovery, workflow, provenance and continuity."
+        />
 
-      <section className="bg-gradient-to-br from-yellow-50 to-yellow-100 py-14 px-6 sm:px-10 lg:px-14 rounded-xl shadow-md max-w-6xl mx-auto">
-        <h2 className="text-3xl font-bold text-yellow-800 mb-6 flex items-center gap-2">
-          👥 Customer Segments{" "}
-        </h2>
-        <div className="grid sm:grid-cols-2 gap-6">
-          <div>
-            <p className="font-semibold mb-2">B2C:</p>
-            <ul className="list-disc pl-5 mb-4 space-y-2 text-base sm:text-lg">
-              <li>MBBS students, interns, NEET PG aspirants</li>
-              <li>Young general practitioners</li>
-              <li>Patients in Tier-2/3 cities (as a self-help guide)</li>
-            </ul>
-          </div>
-          <div>
-            <p className="font-semibold mb-2">B2B:</p>
-            <ul className="list-disc pl-5 space-y-2 text-base sm:text-lg">
-              <li>Medical colleges</li>
-              <li>Clinics, hospitals, telemedicine apps</li>
-              <li>Edtech platforms (for NEET/medical learning)</li>
-            </ul>
-          </div>
+        <div className="grid gap-4 md:grid-cols-2">
+          {goals.map((goal, index) => (
+            <div
+              key={goal}
+              className="flex gap-4 rounded-2xl border border-slate-200 bg-white p-5"
+            >
+              <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-emerald-100 text-sm font-bold text-emerald-800">
+                {index + 1}
+              </span>
+              <p className="leading-7 text-slate-700">{goal}</p>
+            </div>
+          ))}
         </div>
       </section>
 
-      <section className="bg-gradient-to-br from-purple-50 to-purple-100 py-14 px-6 sm:px-10 lg:px-14 rounded-xl shadow-md max-w-6xl mx-auto">
-        <h2 className="text-3xl font-bold text-purple-800 mb-6 flex items-center gap-2">
-          💰 Revenue Streams{" "}
-        </h2>
-        <div className="grid sm:grid-cols-2 gap-8">
-          <div>
-            <p className="font-semibold mb-2">Freemium model (B2C):</p>
-            <ul className="list-disc pl-5 mb-4 space-y-2 text-base sm:text-lg">
-              <li>Free: Basic diagnosis and learning</li>
-              <li>
-                Paid: Pro diagnosis with case-based AI, NEET PG tutor mode,
-                priority answers
-              </li>
-            </ul>
-            <p className="font-semibold mb-2">Subscriptions:</p>
-            <ul className="list-disc pl-5 mb-4 space-y-2 text-base sm:text-lg">
-              <li>₹199–₹499/month for students</li>
-              <li>₹999/month for clinics and pros</li>
-            </ul>
-          </div>
-          <div>
-            <p className="font-semibold mb-2">B2B licensing:</p>
-            <ul className="list-disc pl-5 mb-4 space-y-2 text-base sm:text-lg">
-              <li>API integration for clinics, hospitals, edtech</li>
-              <li>White-labeled assistant for institutions</li>
-            </ul>
-            <p className="font-semibold mb-2">Consultation affiliate:</p>
-            <ul className="list-disc pl-5 space-y-2 text-base sm:text-lg">
-              <li>
-                Redirect users to verified telehealth services with commission
-              </li>
-            </ul>
-          </div>
-        </div>
-      </section>
+      <section className="bg-slate-900 text-white">
+        <div className="mx-auto max-w-6xl px-5 py-16 sm:px-8">
+          <SectionTitle
+            kicker="Current build"
+            title="What exists in the product today"
+            text="These capabilities exist in code at varying levels of runtime verification. Built does not mean production-validated."
+          />
 
-      <section className="bg-gradient-to-br from-pink-50 to-pink-100 py-14 px-6 sm:px-10 lg:px-14 rounded-xl shadow-md max-w-6xl mx-auto">
-        <h2 className="text-3xl font-bold text-pink-800 mb-6 flex items-center gap-2">
-          📢 Channels{" "}
-        </h2>
-        <ul className="list-disc pl-5 space-y-2 text-base sm:text-lg">
-          <li>Mobile app (Android/iOS)</li>
-          <li>Web-based AI portal</li>
-          <li>Partner clinics and edtech platforms</li>
-          <li>YouTube, Instagram Reels (case-based clinical content)</li>
-        </ul>
-      </section>
-
-      <section className="bg-gradient-to-br from-gray-50 to-gray-100 py-14 px-6 sm:px-10 lg:px-14 rounded-xl shadow-md max-w-6xl mx-auto">
-        <h2 className="text-3xl font-bold text-gray-800 mb-6 flex items-center gap-2">
-          🧱 Cost Structure{" "}
-        </h2>
-        <ul className="list-disc pl-5 space-y-2 text-base sm:text-lg">
-          <li>
-            GPU server costs (RunPod/Hetzner initially, later shift to
-            on-premise)
-          </li>
-          <li>LLM fine-tuning & inference infrastructure</li>
-          <li>Team (medical content creators, developers, ML engineers)</li>
-          <li>Compliance & data privacy (HIPAA/GDPR/NDHM)</li>
-          <li>Marketing and community building</li>
-        </ul>
-      </section>
-
-      <section className="bg-gradient-to-br from-cyan-50 to-cyan-100 py-14 px-6 sm:px-10 lg:px-14 rounded-xl shadow-md max-w-6xl mx-auto">
-        <h2 className="text-3xl font-bold text-cyan-800 mb-6 flex items-center gap-2">
-          📊 Key Metrics{" "}
-        </h2>
-        <ul className="list-disc pl-5 space-y-2 text-base sm:text-lg">
-          <li>MAUs (Monthly Active Users)</li>
-          <li>Query volume per day</li>
-          <li>NEET PG mock test completions</li>
-          <li>Subscription conversions</li>
-          <li>Doctor feedback accuracy ratings</li>
-        </ul>
-      </section>
-
-      <section className="bg-gradient-to-br from-green-50 to-green-100 py-14 px-6 sm:px-10 lg:px-14 rounded-xl shadow-md max-w-6xl mx-auto">
-        <h2 className="text-3xl font-bold text-green-800 mb-6">
-          🤝 Key Partners
-        </h2>
-        <div className="grid sm:grid-cols-2 gap-6">
-          <ul className="list-disc pl-5 space-y-2 text-base sm:text-lg">
-            <li>RunPod/Hetzner (for hosting)</li>
-            <li>Medical colleges (early adopters)</li>
-            <li>Edtech players (distribution)</li>
-            <li>Doctors & specialists (validation)</li>
-            <li>Regulatory advisors (NDHM alignment)</li>
-          </ul>
-        </div>
-      </section>
-
-      <section className="max-w-5xl mx-auto py-10 px-4 sm:px-6 lg:px-8">
-        <h2 className="text-2xl sm:text-3xl font-semibold text-blue-900 mb-4">
-          Market Opportunity
-        </h2>
-        <div style={{ width: "100%", height: 300 }}>
-          <ResponsiveContainer>
-            <PieChart>
-              <Pie
-                data={marketData}
-                cx="50%"
-                cy="50%"
-                outerRadius={100}
-                label={({ name, percent }) =>
-                  `${name} ${(percent * 100).toFixed(0)}%`
-                }
-                dataKey="value"
+          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            {currentCapabilities.map((capability) => (
+              <div
+                key={capability}
+                className="rounded-xl border border-white/10 bg-white/5 p-4 text-sm leading-6 text-slate-200"
               >
-                {marketData.map((entry, index) => (
-                  <Cell
-                    key={`cell-m-${index}`}
-                    fill={COLORS[index % COLORS.length]}
-                  />
-                ))}
-              </Pie>
-              <Tooltip />
-            </PieChart>
-          </ResponsiveContainer>
-        </div>
-      </section>
+                <span className="mr-2 text-emerald-300">✓</span>
+                {capability}
+              </div>
+            ))}
+          </div>
 
-      <section className="bg-white py-16 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-6xl mx-auto">
-          <h2 className="text-2xl sm:text-3xl font-semibold text-blue-900 text-center mb-12">
-            Roadmap
-          </h2>
-          <div className="relative flex flex-col items-center">
-            <div className="absolute w-1 bg-blue-300 h-full left-1/2 transform -translate-x-1/2 z-0"></div>
-            <div className="relative z-10 w-full max-w-md bg-white p-6 rounded-lg shadow mb-10 sm:mb-14 border-l-4 border-blue-500">
-              <h3 className="text-xl font-bold text-blue-900">Launch Phase</h3>
-              <p className="text-sm text-gray-700 mt-2">
-                WhatsApp & Android App
-              </p>
-              <p className="text-sm text-gray-700">Initial Disease Modules</p>
-            </div>
-            <div className="relative z-10 w-full max-w-md bg-white p-6 rounded-lg shadow mb-10 sm:mb-14 border-l-4 border-blue-500 self-end">
-              <h3 className="text-xl font-bold text-blue-900">
-                Integration Phase
-              </h3>
-              <p className="text-sm text-gray-700 mt-2">
-                Hospital Integrations
-              </p>
-              <p className="text-sm text-gray-700">Vitals Monitoring Sync</p>
-            </div>
-            <div className="relative z-10 w-full max-w-md bg-white p-6 rounded-lg shadow mb-10 sm:mb-14 border-l-4 border-blue-500">
-              <h3 className="text-xl font-bold text-blue-900">
-                Expansion Phase
-              </h3>
-            </div>
+          <div className="mt-9">
+            <a
+              href={DOCADAMS_PROGRESS_URL}
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex rounded-xl bg-emerald-400 px-5 py-3 text-sm font-bold text-emerald-950"
+            >
+              See the interactive progress page →
+            </a>
           </div>
         </div>
       </section>
 
-      <section className="max-w-5xl mx-auto py-10 px-4 sm:px-6 lg:px-8">
-        <h2 className="text-2xl sm:text-3xl font-semibold text-blue-900 mb-4">
-          Financials & Ask
-        </h2>
-        <p className="text-base sm:text-lg mb-4">
-          Grant Ask: ₹30 Lakhs (~$36K) for Product Development & Public
-          Deployment
-        </p>
-        <div style={{ width: "100%", height: 300 }}>
-          <ResponsiveContainer>
-            <PieChart>
-              <Pie
-                data={fundingData}
-                cx="50%"
-                cy="50%"
-                outerRadius={100}
-                label={({ name, percent }) =>
-                  `${name} ${(percent * 100).toFixed(0)}%`
-                }
-                dataKey="value"
-              >
-                {fundingData.map((entry, index) => (
-                  <Cell
-                    key={`cell-${index}`}
-                    fill={COLORS[index % COLORS.length]}
-                  />
-                ))}
-              </Pie>
-              <Tooltip />
-            </PieChart>
-          </ResponsiveContainer>
+      <section className="mx-auto max-w-6xl px-5 py-16 sm:px-8">
+        <SectionTitle
+          kicker="Product principles"
+          title="How we want to build it"
+        />
+
+        <div className="grid gap-5 md:grid-cols-2">
+          {principles.map((item) => (
+            <article
+              key={item.title}
+              className="rounded-2xl border border-slate-200 bg-white p-6"
+            >
+              <h3 className="text-lg font-bold text-slate-900">{item.title}</h3>
+              <p className="mt-3 leading-7 text-slate-600">{item.text}</p>
+            </article>
+          ))}
         </div>
       </section>
 
-      <section className="bg-white py-10 px-4 sm:px-6 lg:px-8">
-        <h2 className="text-2xl sm:text-3xl font-semibold text-blue-900 mb-4">
-          👨‍⚕️ Our Team
-        </h2>
-        <ul className="list-disc pl-5 space-y-2 text-base sm:text-lg">
-          <li>
-            <strong>Dr. Debanjan Barman</strong> – The Product Guy
-          </li>
-          <li>
-            <strong>Dr. Sayak Barman</strong> – The Marketing Guy
-          </li>
-          <li>
-            <strong>Prabhat Singh</strong> – Our Tech Advisor
-          </li>
-        </ul>
+      <section className="border-y border-slate-200 bg-white">
+        <div className="mx-auto max-w-6xl px-5 py-16 sm:px-8">
+          <SectionTitle
+            kicker="Who it is for"
+            title="Starting with fragmented and underserved healthcare markets"
+            text="The architecture is intended to remain globally portable, with early emphasis on regions where provider data, records, affordability and digital healthcare workflows are fragmented."
+          />
+
+          <div className="flex flex-wrap gap-2">
+            {[
+              "India",
+              "Bangladesh",
+              "Pakistan",
+              "Nepal",
+              "Sri Lanka",
+              "Indonesia",
+              "Philippines",
+              "Vietnam",
+              "Nigeria",
+              "Kenya",
+              "Ghana",
+              "Tanzania",
+              "Uganda",
+              "Other underserved markets",
+            ].map((market) => (
+              <span
+                key={market}
+                className="rounded-full border border-slate-200 bg-slate-50 px-4 py-2 text-sm font-medium text-slate-700"
+              >
+                {market}
+              </span>
+            ))}
+          </div>
+        </div>
       </section>
 
-      <section className="max-w-5xl mx-auto py-10 px-4 sm:px-6 lg:px-8">
-        <h2 className="text-2xl sm:text-3xl font-semibold text-blue-900 mb-4">
-          Contact
-        </h2>
-        <p className="text-base sm:text-lg">
-          📩 contact@innosolvesolutions.org
-          <br />
-          🌐 www.innosolvesolutions.org
-          <br />
-          📍 India
-        </p>
-        <p className="mt-4 text-blue-700 font-semibold text-base sm:text-lg">
-          Join us in transforming the future of AI-powered healthcare.
-        </p>
+      <section className="mx-auto max-w-6xl px-5 py-16 sm:px-8">
+        <SectionTitle
+          kicker="Current roadmap"
+          title="Build the connected core first, then validate and expand"
+        />
+
+        <div className="grid gap-4 md:grid-cols-4">
+          {[
+            {
+              title: "Now",
+              text: "C15 / DoctorMAP integration, provider discovery, location UX and system hardening.",
+            },
+            {
+              title: "Next",
+              text: "Hospitals, clinics and emergency-care integration on top of the existing provider architecture.",
+            },
+            {
+              title: "Then",
+              text: "Localization, country-specific official registries, routing and broader provider/facility coverage.",
+            },
+            {
+              title: "Before scale",
+              text: "Clinical validation, medication-safety validation, security, reliability, regulatory review and launch hardening.",
+            },
+          ].map((step) => (
+            <article
+              key={step.title}
+              className="rounded-2xl border border-slate-200 bg-white p-5"
+            >
+              <p className="text-xs font-bold uppercase tracking-[0.16em] text-emerald-700">
+                {step.title}
+              </p>
+              <p className="mt-3 leading-7 text-slate-700">{step.text}</p>
+            </article>
+          ))}
+        </div>
       </section>
 
-      <footer className="bg-blue-900 text-white py-4 text-center text-sm sm:text-base">
-        &copy; 2025 InnoSolve Solutions Pvt. Ltd.
+      <section className="bg-emerald-50">
+        <div className="mx-auto max-w-6xl px-5 py-16 sm:px-8">
+          <SectionTitle
+            kicker="Team"
+            title="Current core team"
+          />
+
+          <div className="grid gap-5 md:grid-cols-2">
+            <article className="rounded-2xl border border-emerald-200 bg-white p-6">
+              <h3 className="text-xl font-bold text-slate-900">
+                Dr. Debanjan Barman
+              </h3>
+              <p className="mt-2 font-semibold text-emerald-700">
+                Product & clinical direction
+              </p>
+              <p className="mt-4 leading-7 text-slate-600">
+                Building the product architecture, clinical workflows, AI
+                direction and healthcare-data strategy.
+              </p>
+            </article>
+
+            <article className="rounded-2xl border border-emerald-200 bg-white p-6">
+              <h3 className="text-xl font-bold text-slate-900">
+                Dr. Sayak Barman
+              </h3>
+              <p className="mt-2 font-semibold text-emerald-700">
+                Growth & outreach
+              </p>
+              <p className="mt-4 leading-7 text-slate-600">
+                Supporting communication, outreach and the path from a working
+                product toward real-world adoption.
+              </p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section id="contact" className="mx-auto max-w-6xl px-5 py-16 sm:px-8">
+        <SectionTitle
+          kicker="Collaborate"
+          title="Help us build it better."
+          text="We welcome useful criticism and collaboration from clinicians, healthcare-data teams, engineers, researchers, health systems, accelerators and potential funding partners."
+        />
+
+        <div className="rounded-3xl bg-slate-950 p-7 text-white sm:p-9">
+          <p className="text-lg font-semibold">
+            contact@innosolvesolutions.org
+          </p>
+          <p className="mt-3 max-w-3xl leading-7 text-slate-300">
+            Useful contributions can include clinical feedback, validation
+            support, lawful healthcare datasets, infrastructure guidance,
+            partnerships, research collaboration, grants or investment.
+          </p>
+
+          <div className="mt-6 flex flex-wrap gap-3">
+            <a
+              href="mailto:contact@innosolvesolutions.org?subject=DocADAMS%20collaboration"
+              className="rounded-xl bg-white px-5 py-3 text-sm font-bold text-slate-950"
+            >
+              Contact us
+            </a>
+            <a
+              href={DOCADAMS_PROGRESS_URL}
+              target="_blank"
+              rel="noreferrer"
+              className="rounded-xl border border-white/20 px-5 py-3 text-sm font-semibold text-white"
+            >
+              View current progress
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <footer className="border-t border-slate-200 bg-white px-5 py-7 text-center text-sm text-slate-500">
+        DocADAMS · Development-stage healthcare workflow platform · India
       </footer>
-    </div>
+    </main>
   );
-
 }
