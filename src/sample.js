@@ -389,7 +389,7 @@ export default function PitchDeck() {
                 Dr. Sayak Barman
               </h3>
               <p className="mt-2 font-semibold text-emerald-700">
-                Growth & outreach
+                Product, Product, Growth & Outreach
               </p>
               <p className="mt-4 leading-7 text-slate-600">
                 Supporting communication, outreach and the path from a working
