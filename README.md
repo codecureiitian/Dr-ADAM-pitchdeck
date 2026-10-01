@@ -28,7 +28,7 @@ The product is still in development and is not yet production-ready or formally 
 ## Current core team
 
 - **Dr. Debanjan Barman** — Product & clinical direction
-- **Dr. Sayak Barman** — Growth & outreach
+- **Dr. Sayak Barman** — Product, Product, Growth & Outreach
 
 ## Live links
 
